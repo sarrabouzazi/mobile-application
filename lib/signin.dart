@@ -5,15 +5,182 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pfe/services/auth.dart';
 import 'package:pfe/widgets/FormRV.dart';
-import 'signup.dart';
+import 'SignUp.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'bezierContainer.dart';
+import 'bezierdownContainer.dart';
 
 class SignIn extends StatefulWidget {
+  SignIn({Key? key, this.title}) : super(key: key);
+
+  final String? title;
+
   @override
-  _LoginState createState() => _LoginState();
+  _SignInState createState() => _SignInState();
 }
 
-class _LoginState extends State<SignIn> {
+class _SignInState extends State<SignIn> {
+  Widget _backButton() {
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
+            ),
+            Text('Back',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
+          ],
+        ),
+      ),
+    );
+  }
+  Widget _homeButton() {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context,'/home');
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+              child: Icon(Icons.home, color: Colors.black),
+            ),
+            Text('Home',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
+          ],
+        ),
+      ),
+    );
+  }
+  Widget _entryemail(String title, {bool isPassword = false}) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+
+              onChanged: (value) {
+                email = value;
+              },
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  fillColor: Color(0xfff3f3f4),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+  Widget _entrypass(String title, {bool isPassword = false}) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+              obscureText: isPassword,
+              onChanged: (value) {
+                password = value;
+              },
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  fillColor: Color(0xfff3f3f4),
+                  filled: true)),
+
+        ],
+      ),
+    );
+  }
+
+
+  Widget _createAccountLabel() {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignUp()));
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.all(15),
+        alignment: Alignment.bottomCenter,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Don\'t have an account ?',
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              'Register',
+              style: TextStyle(
+                  color: Color(0xff1e3d5c),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _title() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+          text: 'Login',
+          style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w700,
+              color: Color(0xff333b49)
+          ),
+
+          children: [
+            TextSpan(
+              text: 'Page',
+              style: TextStyle(color: Color(0xff384933), fontSize: 30),
+            ),
+
+          ]),
+    );
+  }
+
+  Widget _emailPasswordWidget() {
+    return Column(
+      children: <Widget>[
+        _entryemail("Email "),
+        _entrypass("Password", isPassword: true),
+      ],
+    );
+  }
   bool showSpinner = false;
   final _auth = FirebaseAuth.instance;
   late String email;
@@ -21,215 +188,92 @@ class _LoginState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return ModalProgressHUD(
-      inAsyncCall: showSpinner,
-      child: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: Color(0xff251F34),
-          body: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: SizedBox(
-                      width: 175,
-                      height: 175,
-                      child: SvgPicture.asset('images/login.svg')),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 8),
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text(
-                    'Please sign in to continue.',
-                    style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w400,
-                        fontSize: 13),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'E-mail',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                              color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextField(
-                          style: (TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400)),
-                          keyboardType: TextInputType.emailAddress,
-                          cursorColor: Colors.white,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            fillColor: Color(0xfff3B324E),
-                            filled: true,
-                            prefixIcon: Image.asset('images/icon_email.png'),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff14DAE2), width: 2.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            email = value;
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    final height = MediaQuery.of(context).size.height;
+    return Scaffold(
+        body: Container(
+          height: height,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                  top: -height * .15,
+                  right: -MediaQuery.of(context).size.width * .4,
+                  child: BezierContainer()),
+              Positioned(
+                  top: height * .85,
+                  left: -MediaQuery.of(context).size.width * .3,
+                  child: BezierDownContainer()),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        'Password',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 13,
-                            color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        style: (TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w400)),
-                        obscureText: true,
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          fillColor: Color(0xfff3B324E),
-                          filled: true,
-                          prefixIcon: Image.asset('images/icon_lock.png'),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xff14DAE2), width: 2.0),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                          ),
+                      SizedBox(height: height * .2),
+                      _title(),
+                      SizedBox(height: 50),
+                      _emailPasswordWidget(),
+                      SizedBox(height: 20),
+
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                            color: Color(0xffd7d9d6)
                         ),
-                        onChanged: (value) {
-                          password = value;
-                        },
+                        child: MaterialButton(
+                            onPressed: () async {
+                              bool shouldNavigate = await signIn(email, password);
+                              if (shouldNavigate) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FormRV(),
+                                  ),
+                                );
+                              } else
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                      Text('Email and/or password incorrect')),
+                                );
+
+                              // Add login code
+                              setState(() {
+                                showSpinner = true;
+                              });
+                              try {
+                                final user = await _auth.signInWithEmailAndPassword(
+                                    email: email, password: password);
+                                if (user != null) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => FormRV()));
+                                }
+                                setState(() {
+                                  showSpinner = false;
+                                });
+                              } catch (e) {
+                                print(e);
+                              }
+                            },
+                            child: Text("Login")),
                       ),
+
+
+
+                      SizedBox(height: height * .055),
+                      _createAccountLabel(),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: ElevatedButton(
-                      child: Text("connexion".toUpperCase(),
-                          style: TextStyle(fontSize: 14)),
-                      style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.red),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero,
-                                      side: BorderSide(color: Colors.red)))),
-                      onPressed: () async {
-                        bool shouldNavigate = await signIn(email, password);
-                        if (shouldNavigate) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FormRV(),
-                            ),
-                          );
-                        } else
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Email and/or password incorrect')),
-                          );
-
-                        // Add login code
-                        setState(() {
-                          showSpinner = true;
-                        });
-                        try {
-                          final user = await _auth.signInWithEmailAndPassword(
-                              email: email, password: password);
-                          if (user != null) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FormRV()));
-                          }
-                          setState(() {
-                            showSpinner = false;
-                          });
-                        } catch (e) {
-                          print(e);
-                        }
-                      },
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyle(color: Color(0xff14DAE2)),
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Dont have an account?',
-                      style: TextStyle(
-                          color: Colors.grey[600], fontWeight: FontWeight.w400),
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SignUp()));
-                      },
-                      child: Text('Sign up',
-                          style: TextStyle(
-                            color: Color(0xff14DAE2),
-                          )),
-                    )
-                  ],
-                )
-              ],
-            ),
+              ),
+              Positioned(top: 40, left: 0, child: _backButton()),
+              Positioned(top: 40, right: 0, child: _homeButton()),
+            ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pfe/signin.dart';
 import 'package:pfe/signup.dart';
+import 'package:pfe/widgets/Formation_wid.dart';
+import 'package:pfe/widgets/Service_wid.dart';
 import 'package:pfe/widgets/service.dart';
 import 'package:pfe/widgets/formation.dart';
 import 'package:http/http.dart' as http;
 import 'package:pfe/screens/bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -60,11 +63,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void onItemTap(int selectedItems) {
     pageController.jumpToPage(selectedItems);
   }
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: new SafeArea(
+
         child: ListView(
           padding: EdgeInsets.symmetric(vertical: 30.0),
           children: <Widget>[
@@ -159,14 +165,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+
           ],
         ),
+
       ),
+
+
       floatingActionButton: new FloatingActionButton(
           child: new Icon(Icons.supervisor_account),
-          onPressed: () async {
-            final response = await http.get('http://127.0.0.1:5000/');
+          onPressed: ()  {
+            Navigator.pushNamed(context, '/form');
+
           }),
     );
   }
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 }
+

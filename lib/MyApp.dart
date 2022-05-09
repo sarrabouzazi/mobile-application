@@ -3,6 +3,8 @@ import 'package:pfe/screens/home_screen.dart';
 import 'package:pfe/widgets/FormRV.dart';
 import 'package:pfe/widgets/Service_wid.dart';
 import 'package:pfe/widgets/Formation_wid.dart';
+import 'package:pfe/widgets/admin.dart';
+import 'package:pfe/widgets/chatbot.dart';
 import 'signup.dart';
 import 'signin.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,8 +26,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF212121),
         accentColor: Color(0xFFD8ECF1),
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
       ),
+      themeMode: ThemeMode.system, // device controls theme
+
       routes: {
         '/home': (context) => HomeScreen(),
         '/signin': (context) => SignIn(),
@@ -33,6 +37,9 @@ class MyApp extends StatelessWidget {
         '/service': (context) => Service(),
         '/formation': (context) => Formation_wid(),
         '/form': (context) => FormRV(),
+        '/admin': (context) =>admin(),
+
+
       },
       home: HomeScreen(),
     );
