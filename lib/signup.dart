@@ -1,13 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pfe/bezierContainer.dart';
+
 import 'package:pfe/signin.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pfe/services/auth.dart';
 
-import 'bezierdownContainer.dart';
 class SignUp extends StatefulWidget {
-  SignUp({Key ?key, this.title}) : super(key: key);
+  SignUp({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
@@ -36,10 +35,11 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+
   Widget _homeButton() {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context,'/home');
+        Navigator.pushNamed(context, '/home');
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -56,6 +56,7 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+
   Widget _entryemail(String title, {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -65,13 +66,11 @@ class _SignUpState extends State<SignUp> {
           Text(
             title,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-
           ),
           SizedBox(
             height: 10,
           ),
           TextField(
-
               onChanged: (value) {
                 email = value;
               },
@@ -83,6 +82,7 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+
   Widget _entrypass(String title, {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -92,37 +92,31 @@ class _SignUpState extends State<SignUp> {
           Text(
             title,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-
           ),
           SizedBox(
             height: 10,
           ),
           TextField(
-              obscureText: isPassword,
-
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true),
+            obscureText: isPassword,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true),
             onChanged: (value) {
               password = value;
             },
           ),
-
         ],
       ),
     );
   }
 
   Widget _submitButton() {
-
     return Container(
-
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(vertical: 15),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-
           borderRadius: BorderRadius.all(Radius.circular(5)),
           boxShadow: <BoxShadow>[
             BoxShadow(
@@ -135,11 +129,7 @@ class _SignUpState extends State<SignUp> {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-
-
       child: Text("Register Now"),
-
-
     );
   }
 
@@ -184,15 +174,12 @@ class _SignUpState extends State<SignUp> {
           style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w700,
-              color: Color(0xff333b49)
-          ),
-
+              color: Color(0xff333b49)),
           children: [
             TextSpan(
               text: 'Page',
               style: TextStyle(color: Color(0xff384933), fontSize: 30),
             ),
-
           ]),
     );
   }
@@ -200,7 +187,6 @@ class _SignUpState extends State<SignUp> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-
         _entryemail("Email "),
         _entrypass("Password", isPassword: true),
       ],
@@ -216,18 +202,15 @@ class _SignUpState extends State<SignUp> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("images/cover.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         height: height,
         child: Stack(
           children: <Widget>[
-            Positioned(
-              top: -MediaQuery.of(context).size.height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: BezierContainer(),
-            ),
-            Positioned(
-                top: height * .85,
-                left: -MediaQuery.of(context).size.width * .3,
-                child: BezierDownContainer()),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
@@ -248,9 +231,8 @@ class _SignUpState extends State<SignUp> {
                       width: MediaQuery.of(context).size.width / 1.4,
                       height: 45,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                          color: Color(0xffd7d9d6)
-                      ),
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: Color(0xffd7d9d6)),
                       child: MaterialButton(
                           onPressed: () async {
                             setState(() {
@@ -258,8 +240,8 @@ class _SignUpState extends State<SignUp> {
                             });
                             try {
                               final newUser =
-                              await _auth.createUserWithEmailAndPassword(
-                                  email: email, password: password);
+                                  await _auth.createUserWithEmailAndPassword(
+                                      email: email, password: password);
                               if (newUser != null) {
                                 Navigator.push(
                                     context,
@@ -271,6 +253,9 @@ class _SignUpState extends State<SignUp> {
                                 showSpinner = false;
                               });
                             } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Email in use ')),
+                              );
                               print(e);
                             }
                             // Add login code

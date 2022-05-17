@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 Future<bool> signIn(String email, String password) async {
   try {
@@ -18,9 +19,12 @@ Future<bool> register(String email, String password) async {
         .createUserWithEmailAndPassword(email: email, password: password);
     return true;
   } on FirebaseAuthException catch (e) {
-    if (e.code == 'weak-password') {
+    if (e.email == 'weak-password') {
       print('The password provided is too weak.');
-    } else if (e.code == 'email-already-in-use') {
+    } else if (e.email == 'email-already-in-use') {
+      const SnackBar(
+          content:
+          Text('The account already exists for that email.'));
       print('The account already exists for that email.');
     }
     return false;

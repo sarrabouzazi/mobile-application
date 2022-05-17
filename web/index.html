@@ -29,12 +29,46 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" />
-
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <title>Intelligent Security It</title>
   <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
+
+  <div class="container">
+    <div class="chatbox" id="chat">
+      <div class="chatbox__support">
+        <div class="chatbox__header">
+          <div class="chatbox__image--header">
+            <img src="../static/images/bird.png" alt="image">
+          </div>
+          <div class="chatbox__content--header">
+            <h4 class="chatbox__heading--header">Chat support</h4>
+            <h5 class="chatbox__heading--header">How can I help you ?</h4>
+
+          </div>
+        </div>
+        <div class="chatbox__messages">
+          <div>
+
+          </div>
+        </div>
+        <div class="chatbox__footer">
+          <input type="text" placeholder="Write a message...">
+          <button class="chatbox__send--footer send__button">Send</button>
+        </div>
+      </div>
+      <div class="chatbox__button">
+        <button><img src="{{ url_for('static', filename='images/chatbot.png') }}" /></button>
+      </div>
+    </div>
+  </div>
+  <script>
+    $SCRIPT_ROOT = "{{ request.script_root|tojson }}";
+  </script>
+  <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
+
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
@@ -106,6 +140,24 @@
       // Service workers not supported. Just drop the <script> tag.
       loadMainDartJs();
     }
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyC6_PJgjvggnWnzZeDPnZi7BV1qu83RdSo",
+      authDomain: "projetpfe-98162.firebaseapp.com",
+      databaseURL: "https://projetpfe-98162-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "projetpfe-98162",
+      storageBucket: "projetpfe-98162.appspot.com",
+      messagingSenderId: "652136317638",
+      appId: "1:652136317638:web:66c4c6661f643d70a64dc7",
+      measurementId: "G-FV1MVTPQXL"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics;
+  </script>
   </script>
 </body>
 

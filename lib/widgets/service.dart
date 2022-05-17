@@ -38,7 +38,7 @@ class ServiceCarousel extends StatelessWidget {
           ),
         ),
         Container(
-          height: 300.0,
+          height: 400.0,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: services.length,
@@ -78,11 +78,37 @@ class ServiceCarousel extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: Image(
-                                  height: 180.0,
-                                  width: 180.0,
+                                  height: 380.0,
+                                  width: 480.0,
                                   image: AssetImage(service.imageUrl),
                                   fit: BoxFit.cover,
                                 ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 5.0,
+                              bottom: 5.0,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        FontAwesomeIcons.desktop,
+                                        size: 10.0,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 15.0),
+                                      Text(
+                                        service.name,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           ],

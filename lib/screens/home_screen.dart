@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pfe/models/appcolors.dart';
 import 'package:pfe/signin.dart';
 import 'package:pfe/signup.dart';
 import 'package:pfe/widgets/Formation_wid.dart';
@@ -18,89 +19,159 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   PageController pageController = PageController();
-  List<Widget> pages = [HomeScreen(), SignIn(), SignUp()];
-  int selectIndex = 0;
 
-  int _selectedIndex = 0;
-  int _currentTab = 0;
-  List<IconData> _icons = [
-    FontAwesomeIcons.person,
-  ];
 
-  Widget _buildIcon(int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
-      child: Container(
-        height: 60.0,
-        width: 60.0,
-        decoration: BoxDecoration(
-          color: _selectedIndex == index
-              ? Theme.of(context).accentColor
-              : Color(0xFFE7EBEE),
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        child: Icon(
-          _icons[index],
-          size: 25.0,
-          color: _selectedIndex == index
-              ? Theme.of(context).primaryColor
-              : Color(0xFFB4C1C4),
-        ),
-      ),
-    );
-  }
-
-  void onPageChanged(int index) {
-    setState(() {
-      selectIndex = index;
-    });
-  }
-
-  void onItemTap(int selectedItems) {
-    pageController.jumpToPage(selectedItems);
-  }
-  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
 
-      body: new SafeArea(
-
+      body: Container(
+        decoration: new BoxDecoration(
+          image: new DecorationImage(image: new AssetImage("images/cover.jpg"), fit: BoxFit.cover,),
+        ),
         child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 30.0),
+
+
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 10.0, right: 890.0),
-              child: Column(
-                children: <Widget>[
-                  Image.asset('images/isit logo.png'),
-                ],
+            SizedBox(
+              height: 70.0,
+              width: 50,
+              child: Container(
+
+                margin: EdgeInsets.only(top:5,left:5.0),
+                width: 50.0,
+                child: Stack(
+                  alignment: Alignment.topLeft,
+                  children: <Widget>[
+                    Positioned(
+                      bottom: 20.0,
+
+                      child: Container(
+                        height: 50.0,
+                        width: 50.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2.0),
+
+                      ),
+                      child: Stack(
+                        children: <Widget>[
+                          Hero(
+                            tag: "aa",
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image(
+                                height: 150.0,
+                                width: 120.0,
+                                image: AssetImage("images/isit logo.png"),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
+
             SizedBox(
-                height: 450.0,
-                width: 300.0,
+                height:50.0,
+
+                child:Container(
+                    margin: EdgeInsets.only(top:0,left: 98,right: 5),
+
+                    child: Stack(
+                        children: <Widget> [Positioned(
+                          top:20,
+                          left: 70,
+                          right:1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('About us',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight:FontWeight.bold,
+                                  fontSize: 22,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+
+
+                            ],
+                          ),
+                        ),])
+                )
+            ),
+
+            SizedBox(
+                height:200.0,
+
+
+                child:Container(
+                    margin: EdgeInsets.only(top:0,left: 10,right: 5),
+
+                    child: Stack(
+                        children: <Widget> [Positioned(
+                          top:0,
+                          left: 10,
+                          right:1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+
+                              Text(
+                                'INTELLIGENT SECURITY IT is an independent firm specializing in information security.\n Composed of consultants with several decades of experience in the field of information security and the know-how to support organizations in the transformation of their information security strategy by offering them the appropriate services in addition to the various training courses in field of information security suitable for the market.',
+                                style: TextStyle(
+                                  color: AppColors.DARKER_GREEN,
+                                  fontWeight:FontWeight.w900,
+                                  fontSize: 15,
+                                ),
+
+                              ),
+
+                            ],
+                          ),
+                        ),])
+                )
+            ),
+            SizedBox(
+                height: 200.0,
+                width: 200.0,
                 child: Carousel(
                   images: [
                     ExactAssetImage("images/1.jpg"),
                     ExactAssetImage("images/2.jpg"),
-                    ExactAssetImage("images/3.jpg")
+                    ExactAssetImage("images/3.jpg"),
+                    ExactAssetImage("images/4.png"),
+                    ExactAssetImage("images/5.png"),
+                    ExactAssetImage("images/6.png"),
                   ],
                 )),
             SizedBox(height: 20.0),
             ServiceCarousel(),
             SizedBox(height: 20.0),
             formationCarousel(),
+
             SizedBox(
-              height: 260.0,
+              height: 250.0,
               child: Container(
-                margin: EdgeInsets.all(10.0),
-                width: 210.0,
+
+                margin: EdgeInsets.all(5.0),
+                width: 200.0,
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[
@@ -108,28 +179,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       bottom: 20.0,
                       left: 114.9,
                       child: Container(
-                        height: 320.0,
+                        height: 420.0,
                         width: 200.0,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Padding(
                           padding: EdgeInsets.all(10.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Anis Gharbi",
-                                style: TextStyle(
 
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 1.2,
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
                       ),
                     ),
@@ -151,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(25.0),
                               child: Image(
-                                height: 180.0,
+                                height: 380.0,
                                 width: 180.0,
                                 image: AssetImage("images/anis_gharbi.jpg"),
                                 fit: BoxFit.cover,
@@ -165,6 +222,144 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            Text(
+              'Founder Anis Gharbi',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
+              ),
+            ),
+            SizedBox(
+              height: 300.0,
+
+              child: Container(
+
+                margin: EdgeInsets.only(top:50.0),
+                width: 250.0,
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: <Widget>[
+                    Positioned(
+                      bottom: 20.0,
+                      left: 114.9,
+                      child: Container(
+                        height: 420.0,
+                        width: 200.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0.0, 2.0),
+                            blurRadius: 6.0,
+                          ),
+                        ],
+                      ),
+                      child: Stack(
+                        children: <Widget>[
+                          Hero(
+                            tag: "aa",
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(25.0),
+                              child: Image(
+                                height: 380.0,
+                                width: 380.0,
+                                image: AssetImage("images/map.png"),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+                height: 20.0),
+            Text(
+              'Jardin d’el Menzah2, (prés de Monoprix JM2), Ariana, Tunisie.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1,
+              ),
+            ),
+            SizedBox(
+                height:70.0,
+
+                child:Container(
+                    margin: EdgeInsets.only(top:18,right: 200),
+
+                    child: Stack(
+                        children: <Widget> [Positioned(
+                          top:20,
+
+                          right:1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    FontAwesomeIcons.phone,
+                                    size: 10.0,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(width: 25.0),
+                                  Text(
+                                    'Contact : Fix / Fax : (+216) 71 815 216',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 1.5,
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+
+
+                            ],
+                          ),
+                        ),])
+                )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+              child: Divider(
+                color: Colors.blueGrey.shade400,
+                thickness: 2,
+              ),
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  'Copyright © 2021 | Intelligent Security It',
+                  style: TextStyle(
+                    color: Colors.blueGrey.shade300,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            )
 
           ],
         ),
@@ -172,18 +367,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
 
-      floatingActionButton: new FloatingActionButton(
-          child: new Icon(Icons.supervisor_account),
-          onPressed: ()  {
-            Navigator.pushNamed(context, '/form');
-
-          }),
     );
   }
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
+
 }
 

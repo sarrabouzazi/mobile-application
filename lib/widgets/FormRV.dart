@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../bezierContainer.dart';
-import '../bezierdownContainer.dart';
+import 'package:pfe/widgets/selectformation.dart';
+
+
 import 'Formation_wid.dart';
 import 'package:intl/intl.dart';//Import intl in the file this is being done
 
@@ -26,7 +27,6 @@ class FormRVState extends State<FormRV> {
   DateTime date = DateTime(2022,05,08);
   DateTime selectedDate = DateTime.now();
   //TextEditingController _date = new TextEditingController();
-   Timestamp? _date;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -170,7 +170,7 @@ class FormRVState extends State<FormRV> {
   }
   Widget _builddate(String title) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 7),
+      margin: EdgeInsets.only(left: 7),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -184,15 +184,6 @@ class FormRVState extends State<FormRV> {
           SizedBox(
             height: 10,
           ),
-          TextField(
-
-              onChanged: (value) {
-                _date = value as Timestamp;
-              },
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true)),
           ElevatedButton(
             child:(Text('Select Date')),
             onPressed: () async{
@@ -202,13 +193,16 @@ class FormRVState extends State<FormRV> {
                   firstDate: DateTime(2022) ,
                   lastDate:DateTime(2070)
               );
-              validator: (val) => val!.isEmpty ? 'Entrer une Date' : null;
-              onChanged: (val) => _date = val;
-              //if cancel => null
+              validator: (val) => val!.isEmpty ? 'Select a  Date' : null;
+              onChanged: (val) => selectedDate = val;
+              Timestamp myTimeStamp = Timestamp.fromDate(selectedDate); //To TimeStamp
+
+              DateTime myDateTime = myTimeStamp.toDate();
+              date=myDateTime;
               if(newDate == null) return;
               //if ok datetime
               setState(()=> date = newDate );
-              //ButtonColor : Color.fromARGB(255, 14, 12, 134);
+              ButtonColor : Color.fromARGB(255, 14, 12, 134);
             },
           ),
         ],
@@ -219,20 +213,13 @@ class FormRVState extends State<FormRV> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'Form',
+          text: 'Make an appointment',
           style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w700,
+              fontSize: 23,
+              fontWeight: FontWeight.bold,
               color: Color(0xff333b49)
           ),
-
-          children: [
-            TextSpan(
-              text: 'ulaire',
-              style: TextStyle(color: Color(0xff384933), fontSize: 30),
-            ),
-
-          ]),
+),
     );
   }
   Widget _backButton() {
@@ -283,17 +270,12 @@ class FormRVState extends State<FormRV> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
+          decoration: new BoxDecoration(
+            image: new DecorationImage(image: new AssetImage("images/cover.jpg"), fit: BoxFit.cover,),
+          ),
           height: height,
           child: Stack(
             children: <Widget>[
-              Positioned(
-                  top: -height * .15,
-                  right: -MediaQuery.of(context).size.width * .4,
-                  child: BezierContainer()),
-              Positioned(
-                  top: height * .85,
-                  left: -MediaQuery.of(context).size.width * .3,
-                  child: BezierDownContainer()),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: SingleChildScrollView(
@@ -301,7 +283,7 @@ class FormRVState extends State<FormRV> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: height * .2),
+                      SizedBox(height: height * .15),
                       _title(),
                       _buildName("Name"),
                       _buildEmail("Email"),
@@ -313,7 +295,7 @@ class FormRVState extends State<FormRV> {
                       RaisedButton(
                         child: Text(
                           'Submit',
-                          style: TextStyle(color: Colors.blue, fontSize: 16),
+                          style: TextStyle(color: Colors.black87, fontSize: 16),
                         ),
                         onPressed: () {
                           ref.add({
@@ -321,12 +303,12 @@ class FormRVState extends State<FormRV> {
                             'email':_email,
                             'lastname':_lastname,
                             'phoneNumber': _phoneNumber,
-                            'Date': _date,
+                            'Date': date,
                             'selectedItem':selectedItem,
 
                           }).whenComplete(() {
                             Navigator.pushReplacement(
-                                context, MaterialPageRoute(builder: (_) => Formation_wid()));
+                                context, MaterialPageRoute(builder: (_) => Selectformation()));
                           });
 
                           //Send to API
@@ -337,7 +319,7 @@ class FormRVState extends State<FormRV> {
                 ),
               ),
               Positioned(top: 40, left: 0, child: _backButton()),
-              Positioned(top: 40, right: 0, child: _homeButton()),
+
             ],
           ),
         ));

@@ -3,14 +3,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pfe/pages/userlist.dart';
 import 'package:pfe/services/auth.dart';
+import 'package:pfe/services/loginService.dart';
 import 'package:pfe/widgets/FormRV.dart';
+import 'package:pfe/widgets/selectformation.dart';
+import 'package:provider/provider.dart';
 import 'SignUp.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'bezierContainer.dart';
 import 'bezierdownContainer.dart';
+import 'helpers/button.dart';
+import 'models/appcolors.dart';
 
 class SignIn extends StatefulWidget {
   SignIn({Key? key, this.title}) : super(key: key);
@@ -64,7 +71,7 @@ class _SignInState extends State<SignIn> {
   }
   Widget _entryemail(String title, {bool isPassword = false}) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.symmetric(vertical: 10,horizontal:200),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -91,7 +98,7 @@ class _SignInState extends State<SignIn> {
   }
   Widget _entrypass(String title, {bool isPassword = false}) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.symmetric(vertical: 10,horizontal:200),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -142,8 +149,8 @@ class _SignInState extends State<SignIn> {
             Text(
               'Register',
               style: TextStyle(
-                  color: Color(0xff1e3d5c),
-                  fontSize: 13,
+                  color: Color(0xff3d7bba),
+                  fontSize: 15,
                   fontWeight: FontWeight.w600),
             ),
           ],
@@ -160,13 +167,13 @@ class _SignInState extends State<SignIn> {
           style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w700,
-              color: Color(0xff333b49)
+              color: Color(0xff25539c)
           ),
 
           children: [
             TextSpan(
               text: 'Page',
-              style: TextStyle(color: Color(0xff384933), fontSize: 30),
+              style: TextStyle(color: Color(0xff42627d), fontSize: 30),
             ),
 
           ]),
@@ -189,37 +196,39 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    LoginService loginService = Provider.of<LoginService>(context, listen: false);
+
     return Scaffold(
         body: Container(
+          decoration: new BoxDecoration(
+            image: new DecorationImage(image: new AssetImage("images/cover.jpg"), fit: BoxFit.cover,),
+          ),
           height: height,
           child: Stack(
             children: <Widget>[
-              Positioned(
-                  top: -height * .15,
-                  right: -MediaQuery.of(context).size.width * .4,
-                  child: BezierContainer()),
-              Positioned(
-                  top: height * .85,
-                  left: -MediaQuery.of(context).size.width * .3,
-                  child: BezierDownContainer()),
+
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: SingleChildScrollView(
                   child: Column(
+
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+
                       SizedBox(height: height * .2),
+
                       _title(),
-                      SizedBox(height: 50),
+                      SizedBox(height: 50,width:10),
                       _emailPasswordWidget(),
                       SizedBox(height: 20),
 
                       Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 45,
+
+                        width: MediaQuery.of(context).size.width / 2,
+                        height: 40,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
+                            borderRadius: BorderRadius.circular(15.0),
                             color: Color(0xffd7d9d6)
                         ),
                         child: MaterialButton(
@@ -250,7 +259,7 @@ class _SignInState extends State<SignIn> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => FormRV()));
+                                          builder: (context) => Selectformation()));
                                 }
                                 setState(() {
                                   showSpinner = false;
@@ -261,8 +270,59 @@ class _SignInState extends State<SignIn> {
                             },
                             child: Text("Login")),
                       ),
-
-
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 10,horizontal:200,
+                        ),
+                        child: Row(
+                          children: const <Widget>[
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
+                                child: Divider(
+                                  thickness: 1,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'or',
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
+                                child: Divider(
+                                  thickness: 2,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10,width:50),
+                      ThemeButton(
+                          label: 'Continue with google',
+                          highlight: Colors.green[900],
+                          color: AppColors.MAIN_COLOR,
+                          onClick: () async {
+                            bool success = await loginService.signInWithGoogle();
+                            if (success) {
+                              Navigator.push(context,
+                                  MaterialPageRoute(
+                                      builder: (context)=>FormRV())
+                              );
+                            }
+                          }
+                      ),
 
                       SizedBox(height: height * .055),
                       _createAccountLabel(),
@@ -271,7 +331,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               Positioned(top: 40, left: 0, child: _backButton()),
-              Positioned(top: 40, right: 0, child: _homeButton()),
+
             ],
           ),
         ));

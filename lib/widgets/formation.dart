@@ -76,41 +76,31 @@ class formationCarousel extends StatelessWidget {
                             Hero(
                               tag: formation.imageUrl,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20.0),
+                                borderRadius: BorderRadius.circular(10.0),
                                 child: Image(
-                                  height: 180.0,
-                                  width: 180.0,
+                                  height: 380.0,
+                                  width: 500.0,
                                   image: AssetImage(formation.imageUrl),
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                             Positioned(
-                              left: 10.0,
+                              left: .1,
                               bottom: 10.0,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(
-                                    formation.name,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 1.2,
-                                    ),
-                                  ),
+
                                   Row(
                                     children: <Widget>[
-                                      Icon(
-                                        FontAwesomeIcons.locationArrow,
-                                        size: 10.0,
-                                        color: Colors.white,
-                                      ),
+
                                       SizedBox(width: 20.0),
                                       Text(
+
                                         formation.name,
                                         style: TextStyle(
+                                          fontSize: 15,
                                           color: Colors.white,
                                         ),
                                       ),

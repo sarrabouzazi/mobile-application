@@ -48,6 +48,9 @@ dependencies:
   modal_progress_hud: ^0.1.3
   google_fonts: ^1.1.2
   ymchat_flutter: ^2.0.0
+  provider: ^6.0.2
+  google_maps_flutter: ^2.0.10
+  google_sign_in: ^4.5.9
 
 
 
@@ -85,6 +88,9 @@ flutter:
       - images/1.jpg
       - images/2.jpg
       - images/3.jpg
+      - images/4.png
+      - images/5.png
+      - images/6.png
       - images/anis_gharbi.jpg
       - images/Gouvernance.png
       - images/Continuité.png
@@ -99,6 +105,11 @@ flutter:
       - images/icon_email.png
       - images/success.svg
       - images/rdv.png
+      - images/it.jpg
+      - images/cover.jpg
+      - images/profile.jpg
+      - images/map.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
