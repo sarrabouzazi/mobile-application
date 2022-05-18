@@ -49,7 +49,7 @@ class formationCarousel extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => FormationScreen(
-                      formation: formation,
+                      formation: formations[index],
                     ),
                   ),
                 ),
