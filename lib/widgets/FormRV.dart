@@ -289,7 +289,7 @@ class FormRVState extends State<FormRV> {
                       _buildEmail("Email"),
                       _buildlastname("Lastname"),
                       _buildPhoneNumber("PhoneNumber"),
-                      _builddate("Date"),
+
                       _builditem("Item"),
                       SizedBox(height: 50),
                       RaisedButton(
@@ -303,7 +303,7 @@ class FormRVState extends State<FormRV> {
                             'email':_email,
                             'lastname':_lastname,
                             'phoneNumber': _phoneNumber,
-                            'Date': date,
+
                             'selectedItem':selectedItem,
 
                           }).whenComplete(() {

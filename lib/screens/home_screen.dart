@@ -11,6 +11,8 @@ import 'package:pfe/screens/bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
+import '../widgets/topbar.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -21,12 +23,32 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController pageController = PageController();
 
 
+  final ScrollController _scrollController = ScrollController();
+  double _scrollPosition = 0;
+  double _opacity = 0;
+
+  _scrollListener() {
+    setState(() {
+      _scrollPosition = _scrollController.position.pixels;
+    });
+  }
 
   @override
+  void initState() {
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-
+    var screenSize = MediaQuery.of(context).size;
+    _opacity = _scrollPosition < screenSize.height * 0.40
+        ? _scrollPosition / (screenSize.height * 0.40)
+        : 1;
     return Scaffold(
-
+     appBar:PreferredSize(
+        preferredSize: Size(screenSize.width, 70),
+       child:TopBarContents(_opacity),
+     ),
       body: Container(
         decoration: new BoxDecoration(
           image: new DecorationImage(image: new AssetImage("images/cover.jpg"), fit: BoxFit.cover,),
@@ -35,57 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
           children: <Widget>[
-            SizedBox(
-              height: 70.0,
-              width: 50,
-              child: Container(
 
-                margin: EdgeInsets.only(top:5,left:5.0),
-                width: 50.0,
-                child: Stack(
-                  alignment: Alignment.topLeft,
-                  children: <Widget>[
-                    Positioned(
-                      bottom: 20.0,
-
-                      child: Container(
-                        height: 50.0,
-                        width: 50.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(10.0),
-
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2.0),
-
-                      ),
-                      child: Stack(
-                        children: <Widget>[
-                          Hero(
-                            tag: "aa",
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image(
-                                height: 150.0,
-                                width: 120.0,
-                                image: AssetImage("images/isit logo.png"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
 
             SizedBox(
                 height:50.0,
@@ -149,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
             ),
             SizedBox(
-                height: 200.0,
+                height: 300.0,
                 width: 200.0,
                 child: Carousel(
                   images: [

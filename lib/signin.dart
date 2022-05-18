@@ -9,13 +9,11 @@ import 'package:pfe/services/auth.dart';
 import 'package:pfe/services/loginService.dart';
 import 'package:pfe/widgets/FormRV.dart';
 import 'package:pfe/widgets/selectformation.dart';
+import 'package:pfe/widgets/topbar.dart';
 import 'package:provider/provider.dart';
 import 'SignUp.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'bezierContainer.dart';
-import 'bezierdownContainer.dart';
 import 'helpers/button.dart';
 import 'models/appcolors.dart';
 
@@ -193,12 +191,34 @@ class _SignInState extends State<SignIn> {
   late String email;
   late String password;
 
+  final ScrollController _scrollController = ScrollController();
+  double _scrollPosition = 0;
+  double _opacity = 0;
+
+  _scrollListener() {
+    setState(() {
+      _scrollPosition = _scrollController.position.pixels;
+    });
+  }
+
+  @override
+  void initState() {
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     LoginService loginService = Provider.of<LoginService>(context, listen: false);
-
+    var screenSize = MediaQuery.of(context).size;
+    _opacity = _scrollPosition < screenSize.height * 0.40
+        ? _scrollPosition / (screenSize.height * 0.40)
+        : 1;
     return Scaffold(
+        appBar:PreferredSize(
+          preferredSize: Size(screenSize.width, 70),
+          child:TopBarContents(_opacity),
+        ),
         body: Container(
           decoration: new BoxDecoration(
             image: new DecorationImage(image: new AssetImage("images/cover.jpg"), fit: BoxFit.cover,),
