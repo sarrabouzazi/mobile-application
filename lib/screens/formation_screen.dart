@@ -93,7 +93,7 @@ class _FormationScreenState extends State<FormationScreen> {
               padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
               itemCount: widget.formation.length,
               itemBuilder: (BuildContext context, int index) {
-                var formation;
+                Formation formation = formations[index];
                 return Stack(
                   children: <Widget>[
                     Container(
